@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/res/values-de/values.xml -->
+    <eat-comment/>
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Zur Startseite"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Nach oben"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Weitere Optionen"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Fertig"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Alle ansehen"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"App auswählen"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Suchanfrage löschen"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Suchanfrage"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Suchen"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Suchanfrage senden"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Sprachsuche"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Freigeben für"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Freigeben für %s"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_content_strings.xml -->
+    <eat-comment/>
+    <string name="accessibility_content_view">"Web View"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_ui_strings.xml -->
+    <eat-comment/>
+    <string name="accessibility_date_picker_month">"Monat"</string>
+    <string name="accessibility_date_picker_week">"Woche"</string>
+    <string name="accessibility_date_picker_year">"Jahr"</string>
+    <string name="accessibility_datetime_picker_date">"Datum"</string>
+    <string name="accessibility_datetime_picker_time">"Zeit"</string>
+    <string name="accessibility_time_picker_ampm">"AM/PM"</string>
+    <string name="accessibility_time_picker_hour">"Stunde"</string>
+    <string name="accessibility_time_picker_milli">"Millisekunde"</string>
+    <string name="accessibility_time_picker_minute">"Minute"</string>
+    <string name="accessibility_time_picker_second">"Sekunde"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_content_strings.xml -->
+    <eat-comment/>
+    <string name="actionbar_share">"Teilen"</string>
+    <string name="actionbar_web_search">"Websuche"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_ui_strings.xml -->
+    <eat-comment/>
+    <string name="color_picker_button_black">"Schwarz"</string>
+    <string name="color_picker_button_blue">"Blau"</string>
+    <string name="color_picker_button_cancel">"Abbrechen"</string>
+    <string name="color_picker_button_cyan">"Cyan"</string>
+    <string name="color_picker_button_green">"Grün"</string>
+    <string name="color_picker_button_magenta">"Magenta"</string>
+    <string name="color_picker_button_more">"Mehr"</string>
+    <string name="color_picker_button_red">"Rot"</string>
+    <string name="color_picker_button_set">"Festlegen"</string>
+    <string name="color_picker_button_white">"Weiß"</string>
+    <string name="color_picker_button_yellow">"Gelb"</string>
+    <string name="color_picker_dialog_title">"Farbe auswählen"</string>
+    <string name="color_picker_hue">"Farbton"</string>
+    <string name="color_picker_saturation">"Sättigung"</string>
+    <string name="color_picker_value">"Wert"</string>
+    <string name="copy_to_clipboard_failure_message">"Fehler beim Kopieren in die Zwischenablage"</string>
+    <string name="date_picker_dialog_clear">"Löschen"</string>
+    <string name="date_picker_dialog_other_button_label">"Sonstiges"</string>
+    <string name="date_picker_dialog_set">"Festlegen"</string>
+    <string name="date_picker_dialog_title">"Datum festlegen"</string>
+    <string name="date_time_picker_dialog_title">"Datum und Uhrzeit festlegen"</string>
+    <string name="low_memory_error">"Zu wenig Speicher für vorherige Operation"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_content_strings.xml -->
+    <eat-comment/>
+    <string name="media_player_error_button">"OK"</string>
+    <string name="media_player_error_text_invalid_progressive_playback">"Leider ist dieses Video nicht für Streaming auf diesem Gerät gültig."</string>
+    <string name="media_player_error_text_unknown">"Dieses Video kann leider nicht abgespielt werden."</string>
+    <string name="media_player_error_title">"Videowiedergabe nicht möglich"</string>
+    <string name="media_player_loading_video">"Video wird geladen"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_ui_strings.xml -->
+    <eat-comment/>
+    <string name="month_picker_dialog_title">"Monat festlegen"</string>
+    <string name="opening_file_error">"Fehler beim Öffnen der Datei"</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_content_strings.xml -->
+    <eat-comment/>
+    <string name="profiler_error_toast">"Profiler konnte nicht gestartet werden."</string>
+    <string name="profiler_no_storage_toast">"Profiler kann nicht gestartet werden, da der externe Speicher nicht bereit ist."</string>
+    <string name="profiler_started_toast">"Profiler gestartet"</string>
+    <string name="profiler_stopped_toast">"Profiler ist fertig. Die Ergebnisse befinden sich in der Datei %1$s."</string>
+    <!-- From: file:/Users/qiaoliang89/Documents/Dashboard/app/build/intermediates/exploded-aar/org.xwalk/xwalk_core_library/10.39.235.15/res/values-de/android_ui_strings.xml -->
+    <eat-comment/>
+    <string name="time_picker_dialog_am">"AM"</string>
+    <string name="time_picker_dialog_hour_minute_separator">":"</string>
+    <string name="time_picker_dialog_minute_second_separator">":"</string>
+    <string name="time_picker_dialog_pm">"PM"</string>
+    <string name="time_picker_dialog_second_subsecond_separator">"."</string>
+    <string name="time_picker_dialog_title">"Uhrzeit festlegen"</string>
+    <string name="week_picker_dialog_title">"Woche festlegen"</string>
+</resources>
