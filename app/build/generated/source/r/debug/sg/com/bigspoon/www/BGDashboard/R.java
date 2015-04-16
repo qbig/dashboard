@@ -1239,7 +1239,7 @@ containing a value of this type.
         public static final int action_mode_close_button=0x7f0a0029;
         public static final int activity_chooser_view_content=0x7f0a002a;
         public static final int always=0x7f0a000f;
-        public static final int ampm=0x7f0a006a;
+        public static final int ampm=0x7f0a006b;
         public static final int arrow_image=0x7f0a0075;
         public static final int b_signin=0x7f0a0060;
         public static final int beginning=0x7f0a000a;
@@ -1274,7 +1274,7 @@ containing a value of this type.
         public static final int gradient_border=0x7f0a0049;
         public static final int home=0x7f0a001c;
         public static final int homeAsUp=0x7f0a0005;
-        public static final int hour=0x7f0a0064;
+        public static final int hour=0x7f0a0065;
         public static final int icon=0x7f0a002f;
         public static final int icon_view=0x7f0a0073;
         public static final int ifRoom=0x7f0a000e;
@@ -1285,11 +1285,11 @@ containing a value of this type.
         public static final int logout=0x7f0a007b;
         public static final int main_text=0x7f0a0076;
         public static final int middle=0x7f0a000b;
-        public static final int milli=0x7f0a0069;
-        public static final int minute=0x7f0a0065;
+        public static final int milli=0x7f0a006a;
+        public static final int minute=0x7f0a0066;
         public static final int more_colors_button=0x7f0a004f;
         public static final int more_colors_button_border=0x7f0a004e;
-        public static final int navigation_drawer=0x7f0a0063;
+        public static final int navigation_drawer=0x7f0a0064;
         public static final int never=0x7f0a000d;
         public static final int none=0x7f0a0009;
         public static final int normal=0x7f0a0000;
@@ -1312,9 +1312,9 @@ containing a value of this type.
         public static final int search_plate=0x7f0a003b;
         public static final int search_src_text=0x7f0a003c;
         public static final int search_voice_btn=0x7f0a0040;
-        public static final int second=0x7f0a0067;
-        public static final int second_colon=0x7f0a0066;
-        public static final int second_dot=0x7f0a0068;
+        public static final int second=0x7f0a0068;
+        public static final int second_colon=0x7f0a0067;
+        public static final int second_dot=0x7f0a0069;
         public static final int seek_bar=0x7f0a004b;
         public static final int select_action_menu_copy=0x7f0a007e;
         public static final int select_action_menu_cut=0x7f0a007d;
@@ -1344,17 +1344,17 @@ containing a value of this type.
         public static final int top_view=0x7f0a0072;
         public static final int tpi_header=0x7f0a005a;
         public static final int triangle=0x7f0a0014;
-        public static final int tv_content=0x7f0a006c;
         public static final int tv_date=0x7f0a0047;
         public static final int tv_name=0x7f0a0046;
         public static final int tv_signup=0x7f0a005d;
         public static final int tv_summary=0x7f0a006d;
-        public static final int tv_title=0x7f0a006b;
+        public static final int tv_title=0x7f0a006c;
         public static final int underline=0x7f0a0015;
         public static final int up=0x7f0a0026;
         public static final int useLogo=0x7f0a0003;
         public static final int vp_pages=0x7f0a005b;
         public static final int withText=0x7f0a0010;
+        public static final int xwalkWebView=0x7f0a0063;
         public static final int year=0x7f0a0070;
     }
     public static final class integer {

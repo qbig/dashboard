@@ -3,6 +3,16 @@ package sg.com.bigspoon.www.BGDashboard;
 import android.accounts.AccountManager;
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.squareup.otto.Bus;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 import sg.com.bigspoon.www.BGDashboard.authenticator.ApiKeyProvider;
 import sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity;
 import sg.com.bigspoon.www.BGDashboard.authenticator.LogoutService;
@@ -14,23 +24,8 @@ import sg.com.bigspoon.www.BGDashboard.core.RestErrorHandler;
 import sg.com.bigspoon.www.BGDashboard.core.TimerService;
 import sg.com.bigspoon.www.BGDashboard.core.UserAgentProvider;
 import sg.com.bigspoon.www.BGDashboard.ui.BootstrapTimerActivity;
-import sg.com.bigspoon.www.BGDashboard.ui.CheckInsListFragment;
 import sg.com.bigspoon.www.BGDashboard.ui.MainActivity;
 import sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment;
-import sg.com.bigspoon.www.BGDashboard.ui.NewsActivity;
-import sg.com.bigspoon.www.BGDashboard.ui.NewsListFragment;
-import sg.com.bigspoon.www.BGDashboard.ui.UserActivity;
-import sg.com.bigspoon.www.BGDashboard.ui.UserListFragment;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.otto.Bus;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
 
 /**
  * Dagger module for setting up provides statements.
@@ -38,18 +33,13 @@ import retrofit.converter.GsonConverter;
  */
 @Module(
         complete = false,
-
+        library = true,
         injects = {
                 BootstrapApplication.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
                 BootstrapTimerActivity.class,
-                CheckInsListFragment.class,
                 NavigationDrawerFragment.class,
-                NewsActivity.class,
-                NewsListFragment.class,
-                UserActivity.class,
-                UserListFragment.class,
                 TimerService.class
         }
 )

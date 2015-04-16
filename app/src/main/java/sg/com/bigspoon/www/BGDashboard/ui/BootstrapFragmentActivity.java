@@ -3,13 +3,12 @@ package sg.com.bigspoon.www.BGDashboard.ui;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-import sg.com.bigspoon.www.BGDashboard.Injector;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
-import butterknife.InjectView;
 import butterknife.Views;
+import sg.com.bigspoon.www.BGDashboard.Injector;
 
 /**
  * Base class for all Bootstrap Activities that need fragments.

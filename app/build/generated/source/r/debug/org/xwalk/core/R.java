@@ -41,7 +41,7 @@ public final class R {
 		public static final int pageinfo_warning_major = 0x7f020079;
 	}
 	public static final class id {
-		public static final int ampm = 0x7f0a006a;
+		public static final int ampm = 0x7f0a006b;
 		public static final int arrow_image = 0x7f0a0075;
 		public static final int color_button_swatch = 0x7f0a0078;
 		public static final int color_picker_advanced = 0x7f0a004c;
@@ -56,18 +56,18 @@ public final class R {
 		public static final int dropdown_sublabel = 0x7f0a0059;
 		public static final int gradient = 0x7f0a004a;
 		public static final int gradient_border = 0x7f0a0049;
-		public static final int hour = 0x7f0a0064;
+		public static final int hour = 0x7f0a0065;
 		public static final int icon_view = 0x7f0a0073;
 		public static final int main_text = 0x7f0a0076;
-		public static final int milli = 0x7f0a0069;
-		public static final int minute = 0x7f0a0065;
+		public static final int milli = 0x7f0a006a;
+		public static final int minute = 0x7f0a0066;
 		public static final int more_colors_button = 0x7f0a004f;
 		public static final int more_colors_button_border = 0x7f0a004e;
 		public static final int pickers = 0x7f0a006e;
 		public static final int position_in_year = 0x7f0a006f;
-		public static final int second = 0x7f0a0067;
-		public static final int second_colon = 0x7f0a0066;
-		public static final int second_dot = 0x7f0a0068;
+		public static final int second = 0x7f0a0068;
+		public static final int second_colon = 0x7f0a0067;
+		public static final int second_dot = 0x7f0a0069;
 		public static final int seek_bar = 0x7f0a004b;
 		public static final int select_action_menu_copy = 0x7f0a007e;
 		public static final int select_action_menu_cut = 0x7f0a007d;

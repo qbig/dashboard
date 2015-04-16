@@ -1,6 +1,5 @@
 package sg.com.bigspoon.www.BGDashboard.ui;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,13 +18,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.squareup.otto.Bus;
+
+import javax.inject.Inject;
+
 import sg.com.bigspoon.www.BGDashboard.Injector;
 import sg.com.bigspoon.www.BGDashboard.R;
 import sg.com.bigspoon.www.BGDashboard.events.NavItemSelectedEvent;
 import sg.com.bigspoon.www.BGDashboard.util.UIUtils;
-import com.squareup.otto.Bus;
-
-import javax.inject.Inject;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

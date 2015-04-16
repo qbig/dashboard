@@ -14,12 +14,12 @@ import javax.inject.Provider;
  * instance provision of types served by {@code @Provides} methods.
  */
 public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<BootstrapModule> {
-  private static final String[] INJECTS = { "members/sg.com.bigspoon.www.BGDashboard.BootstrapApplication", "members/sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.MainActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.BootstrapTimerActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.CheckInsListFragment", "members/sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment", "members/sg.com.bigspoon.www.BGDashboard.ui.NewsActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.NewsListFragment", "members/sg.com.bigspoon.www.BGDashboard.ui.UserActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.UserListFragment", "members/sg.com.bigspoon.www.BGDashboard.core.TimerService", };
+  private static final String[] INJECTS = { "members/sg.com.bigspoon.www.BGDashboard.BootstrapApplication", "members/sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.MainActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.BootstrapTimerActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment", "members/sg.com.bigspoon.www.BGDashboard.core.TimerService", };
   private static final Class<?>[] STATIC_INJECTIONS = { };
   private static final Class<?>[] INCLUDES = { };
 
   public BootstrapModule$$ModuleAdapter() {
-    super(INJECTS, STATIC_INJECTIONS, false /*overrides*/, INCLUDES, false /*complete*/, false /*library*/);
+    super(INJECTS, STATIC_INJECTIONS, false /*overrides*/, INCLUDES, false /*complete*/, true /*library*/);
   }
 
   @Override
@@ -58,7 +58,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideOttoBusProvidesAdapter(BootstrapModule module) {
       super("com.squareup.otto.Bus", null, IS_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideOttoBus()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -90,7 +90,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideLogoutServiceProvidesAdapter(BootstrapModule module) {
       super("sg.com.bigspoon.www.BGDashboard.authenticator.LogoutService", null, IS_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideLogoutService()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -142,7 +142,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideBootstrapServiceProvidesAdapter(BootstrapModule module) {
       super("sg.com.bigspoon.www.BGDashboard.core.BootstrapService", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideBootstrapService()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -193,7 +193,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideBootstrapServiceProviderProvidesAdapter(BootstrapModule module) {
       super("sg.com.bigspoon.www.BGDashboard.BootstrapServiceProvider", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideBootstrapServiceProvider()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -245,7 +245,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideApiKeyProviderProvidesAdapter(BootstrapModule module) {
       super("sg.com.bigspoon.www.BGDashboard.authenticator.ApiKeyProvider", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideApiKeyProvider()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -291,7 +291,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideGsonProvidesAdapter(BootstrapModule module) {
       super("com.google.gson.Gson", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideGson()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -322,7 +322,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideRestErrorHandlerProvidesAdapter(BootstrapModule module) {
       super("sg.com.bigspoon.www.BGDashboard.core.RestErrorHandler", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideRestErrorHandler()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -372,7 +372,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideRestAdapterRequestInterceptorProvidesAdapter(BootstrapModule module) {
       super("sg.com.bigspoon.www.BGDashboard.core.RestAdapterRequestInterceptor", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideRestAdapterRequestInterceptor()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**
@@ -424,7 +424,7 @@ public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<Bootstra
     public ProvideRestAdapterProvidesAdapter(BootstrapModule module) {
       super("retrofit.RestAdapter", null, NOT_SINGLETON, "sg.com.bigspoon.www.BGDashboard.BootstrapModule.provideRestAdapter()");
       this.module = module;
-      setLibrary(false);
+      setLibrary(true);
     }
 
     /**

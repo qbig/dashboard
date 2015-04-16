@@ -15,6 +15,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
+        <org.xwalk.core.XWalkView
+            android:id="@+id/xwalkWebView"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#000000"
+            />
+    </LinearLayout>
 
 </LinearLayout>

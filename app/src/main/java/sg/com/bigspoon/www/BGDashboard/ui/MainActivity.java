@@ -7,24 +7,25 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import com.squareup.otto.Subscribe;
+
+import org.xwalk.core.XWalkPreferences;
+import org.xwalk.core.XWalkView;
+
+import javax.inject.Inject;
+
+import butterknife.Views;
 import sg.com.bigspoon.www.BGDashboard.BootstrapServiceProvider;
 import sg.com.bigspoon.www.BGDashboard.R;
 import sg.com.bigspoon.www.BGDashboard.core.BootstrapService;
 import sg.com.bigspoon.www.BGDashboard.events.NavItemSelectedEvent;
 import sg.com.bigspoon.www.BGDashboard.util.Ln;
 import sg.com.bigspoon.www.BGDashboard.util.SafeAsyncTask;
-import sg.com.bigspoon.www.BGDashboard.util.UIUtils;
-import com.squareup.otto.Subscribe;
-
-import javax.inject.Inject;
-
-import butterknife.Views;
 
 
 /**
@@ -44,6 +45,7 @@ public class MainActivity extends BootstrapFragmentActivity {
     private CharSequence drawerTitle;
     private CharSequence title;
     private NavigationDrawerFragment navigationDrawerFragment;
+    private XWalkView myXWalkWebView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -102,13 +104,18 @@ public class MainActivity extends BootstrapFragmentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        myXWalkWebView = (XWalkView)findViewById(R.id.xwalkWebView);
+        myXWalkWebView.clearCache(true);
+        myXWalkWebView.load("http://bigspoon.biz/staff/main", null);
+        // turn on debugging
+        XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+        getSupportActionBar().hide();
 
         checkAuth();
-
     }
 
     private boolean isTablet() {
-        return UIUtils.isTablet(this);
+        return false; //UIUtils.isTablet(this);
     }
 
     @Override
@@ -135,10 +142,10 @@ public class MainActivity extends BootstrapFragmentActivity {
         if (userHasAuthenticated) {
 
             Ln.d("Foo");
-            final FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, new CarouselFragment())
-                    .commit();
+//            final FragmentManager fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.container, new XxxFragment())
+//                    x
         }
 
     }
