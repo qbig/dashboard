@@ -32,7 +32,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:1.1.1'
     compile 'com.squareup.retrofit:retrofit:1.5.1'
     compile 'org.xwalk:xwalk_core_library:10.39.235.15'
-
+    compile "com.google.android.gms:play-services:4.0.+"
 
     androidTestCompile 'junit:junit:4.11'
     androidTestCompile 'org.hamcrest:hamcrest-library:1.3'
