@@ -117,57 +117,29 @@ category#android.intent.category.DEFAULT
 ADDED from AndroidManifest.xml:43:17
 	android:name
 		ADDED from AndroidManifest.xml:43:27
-activity#sg.com.bigspoon.www.BGDashboard.ui.BootstrapTimerActivity
-ADDED from AndroidManifest.xml:47:9
-	android:screenOrientation
-		ADDED from AndroidManifest.xml:52:13
-	android:label
-		ADDED from AndroidManifest.xml:49:19
-	android:parentActivityName
-		ADDED from AndroidManifest.xml:51:19
-	android:launchMode
-		ADDED from AndroidManifest.xml:50:19
-	android:configChanges
-		ADDED from AndroidManifest.xml:48:19
-	android:name
-		ADDED from AndroidManifest.xml:47:19
-meta-data#android.support.PARENT_ACTIVITY
-ADDED from AndroidManifest.xml:55:13
-	android:value
-		ADDED from AndroidManifest.xml:57:17
-	android:name
-		ADDED from AndroidManifest.xml:56:17
-service#sg.com.bigspoon.www.BGDashboard.core.TimerService
-ADDED from AndroidManifest.xml:60:9
-	android:enabled
-		ADDED from AndroidManifest.xml:60:52
-	android:exported
-		ADDED from AndroidManifest.xml:60:75
-	android:name
-		ADDED from AndroidManifest.xml:60:18
 service#sg.com.bigspoon.www.BGDashboard.authenticator.AccountAuthenticatorService
-ADDED from AndroidManifest.xml:62:9
+ADDED from AndroidManifest.xml:47:9
 	android:process
-		ADDED from AndroidManifest.xml:64:13
+		ADDED from AndroidManifest.xml:49:13
 	android:name
-		ADDED from AndroidManifest.xml:63:13
+		ADDED from AndroidManifest.xml:48:13
 intent-filter#android.accounts.AccountAuthenticator
-ADDED from AndroidManifest.xml:65:13
+ADDED from AndroidManifest.xml:50:13
 action#android.accounts.AccountAuthenticator
-ADDED from AndroidManifest.xml:66:17
+ADDED from AndroidManifest.xml:51:17
 	android:name
-		ADDED from AndroidManifest.xml:66:25
+		ADDED from AndroidManifest.xml:51:25
 meta-data#android.accounts.AccountAuthenticator
-ADDED from AndroidManifest.xml:69:13
+ADDED from AndroidManifest.xml:54:13
 	android:resource
-		ADDED from AndroidManifest.xml:71:17
+		ADDED from AndroidManifest.xml:56:17
 	android:name
-		ADDED from AndroidManifest.xml:70:17
+		ADDED from AndroidManifest.xml:55:17
 activity#sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity
-ADDED from AndroidManifest.xml:74:9
+ADDED from AndroidManifest.xml:59:9
 	android:screenOrientation
-		ADDED from AndroidManifest.xml:77:13
+		ADDED from AndroidManifest.xml:62:13
 	android:excludeFromRecents
-		ADDED from AndroidManifest.xml:76:13
+		ADDED from AndroidManifest.xml:61:13
 	android:name
-		ADDED from AndroidManifest.xml:75:13
+		ADDED from AndroidManifest.xml:60:13

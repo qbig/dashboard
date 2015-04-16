@@ -14,7 +14,7 @@ import javax.inject.Provider;
  * instance provision of types served by {@code @Provides} methods.
  */
 public final class BootstrapModule$$ModuleAdapter extends ModuleAdapter<BootstrapModule> {
-  private static final String[] INJECTS = { "members/sg.com.bigspoon.www.BGDashboard.BootstrapApplication", "members/sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.MainActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.BootstrapTimerActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment", "members/sg.com.bigspoon.www.BGDashboard.core.TimerService", };
+  private static final String[] INJECTS = { "members/sg.com.bigspoon.www.BGDashboard.BootstrapApplication", "members/sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.MainActivity", "members/sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment", };
   private static final Class<?>[] STATIC_INJECTIONS = { };
   private static final Class<?>[] INCLUDES = { };
 

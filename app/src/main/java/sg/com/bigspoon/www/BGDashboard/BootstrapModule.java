@@ -21,9 +21,7 @@ import sg.com.bigspoon.www.BGDashboard.core.Constants;
 import sg.com.bigspoon.www.BGDashboard.core.PostFromAnyThreadBus;
 import sg.com.bigspoon.www.BGDashboard.core.RestAdapterRequestInterceptor;
 import sg.com.bigspoon.www.BGDashboard.core.RestErrorHandler;
-import sg.com.bigspoon.www.BGDashboard.core.TimerService;
 import sg.com.bigspoon.www.BGDashboard.core.UserAgentProvider;
-import sg.com.bigspoon.www.BGDashboard.ui.BootstrapTimerActivity;
 import sg.com.bigspoon.www.BGDashboard.ui.MainActivity;
 import sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment;
 
@@ -38,9 +36,7 @@ import sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment;
                 BootstrapApplication.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
-                BootstrapTimerActivity.class,
                 NavigationDrawerFragment.class,
-                TimerService.class
         }
 )
 public class BootstrapModule {

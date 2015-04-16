@@ -21,16 +21,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import sg.com.bigspoon.www.BGDashboard.R;
-import sg.com.bigspoon.www.BGDashboard.R.id;
-import sg.com.bigspoon.www.BGDashboard.R.layout;
-import sg.com.bigspoon.www.BGDashboard.authenticator.LogoutService;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
 
 import java.util.Collections;
 import java.util.List;
+
+import sg.com.bigspoon.www.BGDashboard.R;
+import sg.com.bigspoon.www.BGDashboard.R.id;
+import sg.com.bigspoon.www.BGDashboard.R.layout;
+import sg.com.bigspoon.www.BGDashboard.authenticator.LogoutService;
 
 
 /**

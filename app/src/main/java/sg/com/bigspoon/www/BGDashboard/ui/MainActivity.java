@@ -2,8 +2,6 @@
 
 package sg.com.bigspoon.www.BGDashboard.ui;
 
-import android.accounts.OperationCanceledException;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,10 +20,8 @@ import javax.inject.Inject;
 import butterknife.Views;
 import sg.com.bigspoon.www.BGDashboard.BootstrapServiceProvider;
 import sg.com.bigspoon.www.BGDashboard.R;
-import sg.com.bigspoon.www.BGDashboard.core.BootstrapService;
 import sg.com.bigspoon.www.BGDashboard.events.NavItemSelectedEvent;
 import sg.com.bigspoon.www.BGDashboard.util.Ln;
-import sg.com.bigspoon.www.BGDashboard.util.SafeAsyncTask;
 
 
 /**
@@ -111,7 +107,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
         getSupportActionBar().hide();
 
-        checkAuth();
+        //checkAuth();
     }
 
     private boolean isTablet() {
@@ -150,33 +146,33 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     }
 
-    private void checkAuth() {
-        new SafeAsyncTask<Boolean>() {
-
-            @Override
-            public Boolean call() throws Exception {
-                final BootstrapService svc = serviceProvider.getService(MainActivity.this);
-                return svc != null;
-            }
-
-            @Override
-            protected void onException(final Exception e) throws RuntimeException {
-                super.onException(e);
-                if (e instanceof OperationCanceledException) {
-                    // User cancelled the authentication process (back button, etc).
-                    // Since auth could not take place, lets finish this activity.
-                    finish();
-                }
-            }
-
-            @Override
-            protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
-                super.onSuccess(hasAuthenticated);
-                userHasAuthenticated = true;
-                initScreen();
-            }
-        }.execute();
-    }
+//    private void checkAuth() {
+//        new SafeAsyncTask<Boolean>() {
+//
+//            @Override
+//            public Boolean call() throws Exception {
+//                final BootstrapService svc = serviceProvider.getService(MainActivity.this);
+//                return svc != null;
+//            }
+//
+//            @Override
+//            protected void onException(final Exception e) throws RuntimeException {
+//                super.onException(e);
+//                if (e instanceof OperationCanceledException) {
+//                    // User cancelled the authentication process (back button, etc).
+//                    // Since auth could not take place, lets finish this activity.
+//                    finish();
+//                }
+//            }
+//
+//            @Override
+//            protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
+//                super.onSuccess(hasAuthenticated);
+//                userHasAuthenticated = true;
+//                initScreen();
+//            }
+//        }.execute();
+//    }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -190,17 +186,12 @@ public class MainActivity extends BootstrapFragmentActivity {
                 //menuDrawer.toggleMenu();
                 return true;
             case R.id.timer:
-                navigateToTimer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void navigateToTimer() {
-        final Intent i = new Intent(this, BootstrapTimerActivity.class);
-        startActivity(i);
-    }
 
     @Subscribe
     public void onNavigationItemSelected(NavItemSelectedEvent event) {
@@ -214,7 +205,6 @@ public class MainActivity extends BootstrapFragmentActivity {
                 break;
             case 1:
                 // Timer
-                navigateToTimer();
                 break;
         }
     }
