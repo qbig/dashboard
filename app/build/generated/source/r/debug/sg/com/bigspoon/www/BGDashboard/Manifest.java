@@ -11,6 +11,6 @@ public final class Manifest {
     public static final class permission {
         /**  Keeps the processor from sleeping when a message is received. 
          */
-        public static final String C2D_MESSAGE="com.google.android.gcm.demo.app.permission.C2D_MESSAGE";
+        public static final String C2D_MESSAGE="sg.com.bigspoon.www.BGDashboard.permission.C2D_MESSAGE";
     }
 }

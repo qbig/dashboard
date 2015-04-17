@@ -90,13 +90,13 @@ uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from AndroidManifest.xml:27:5
 	android:name
 		ADDED from AndroidManifest.xml:27:22
-permission#com.google.android.gcm.demo.app.permission.C2D_MESSAGE
+permission#sg.com.bigspoon.www.BGDashboard.permission.C2D_MESSAGE
 ADDED from AndroidManifest.xml:31:5
 	android:protectionLevel
 		ADDED from AndroidManifest.xml:32:9
 	android:name
 		ADDED from AndroidManifest.xml:31:17
-uses-permission#com.google.android.gcm.demo.app.permission.C2D_MESSAGE
+uses-permission#sg.com.bigspoon.www.BGDashboard.permission.C2D_MESSAGE
 ADDED from AndroidManifest.xml:33:5
 	android:name
 		ADDED from AndroidManifest.xml:33:22
@@ -158,7 +158,7 @@ ADDED from AndroidManifest.xml:67:13
 		ADDED from AndroidManifest.xml:69:17
 	android:name
 		ADDED from AndroidManifest.xml:68:17
-receiver#sg.com.bigspoon.www.BGDashboard.GcmBroadcastReceiver
+receiver#sg.com.bigspoon.www.BGDashboard.core.GcmBroadcastReceiver
 ADDED from AndroidManifest.xml:72:9
 	android:permission
 		ADDED from AndroidManifest.xml:74:13
@@ -174,7 +174,7 @@ category#com.example.gcm
 ADDED from AndroidManifest.xml:77:17
 	android:name
 		ADDED from AndroidManifest.xml:77:27
-service#sg.com.bigspoon.www.BGDashboard.GcmIntentService
+service#sg.com.bigspoon.www.BGDashboard.core.GcmIntentService
 ADDED from AndroidManifest.xml:80:9
 	android:name
 		ADDED from AndroidManifest.xml:80:18

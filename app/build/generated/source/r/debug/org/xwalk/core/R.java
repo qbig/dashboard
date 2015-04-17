@@ -27,18 +27,18 @@ public final class R {
 		public static final int link_preview_overlay_radius = 0x7f0b0028;
 	}
 	public static final class drawable {
-		public static final int bubble = 0x7f020059;
-		public static final int bubble_arrow_up = 0x7f02005a;
-		public static final int color_button_background = 0x7f02005f;
-		public static final int color_picker_advanced_select_handle = 0x7f020060;
-		public static final int color_picker_border = 0x7f020061;
-		public static final int dropdown_popup_background = 0x7f02007a;
-		public static final int dropdown_popup_background_down = 0x7f02007b;
-		public static final int dropdown_popup_background_up = 0x7f02007c;
-		public static final int ic_menu_search_holo_light = 0x7f020084;
-		public static final int ic_menu_share_holo_light = 0x7f020085;
-		public static final int ondemand_overlay = 0x7f020094;
-		public static final int pageinfo_warning_major = 0x7f020095;
+		public static final int bubble = 0x7f02005a;
+		public static final int bubble_arrow_up = 0x7f02005b;
+		public static final int color_button_background = 0x7f020060;
+		public static final int color_picker_advanced_select_handle = 0x7f020061;
+		public static final int color_picker_border = 0x7f020062;
+		public static final int dropdown_popup_background = 0x7f02007b;
+		public static final int dropdown_popup_background_down = 0x7f02007c;
+		public static final int dropdown_popup_background_up = 0x7f02007d;
+		public static final int ic_menu_search_holo_light = 0x7f020085;
+		public static final int ic_menu_share_holo_light = 0x7f020086;
+		public static final int ondemand_overlay = 0x7f020095;
+		public static final int pageinfo_warning_major = 0x7f020096;
 	}
 	public static final class id {
 		public static final int ampm = 0x7f0a006e;

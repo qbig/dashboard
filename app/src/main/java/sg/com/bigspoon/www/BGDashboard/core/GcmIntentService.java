@@ -33,6 +33,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import sg.com.bigspoon.www.BGDashboard.R;
+import sg.com.bigspoon.www.BGDashboard.ui.MainActivity;
 
 /**
  * This {@code IntentService} does the actual handling of the GCM message.
@@ -104,11 +105,11 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, DemoActivity.class), 0);
+                new Intent(this, MainActivity.class), 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_stat_gcm)
+        .setSmallIcon(R.drawable.abc_ic_go)
         .setContentTitle("GCM Notification")
         .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
