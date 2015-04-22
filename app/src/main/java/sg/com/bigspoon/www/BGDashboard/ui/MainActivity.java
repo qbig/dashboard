@@ -6,18 +6,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
-import android.widget.Toast;
+import android.webkit.WebResourceResponse;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.onesignal.OneSignal;
@@ -27,9 +25,10 @@ import com.squareup.otto.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xwalk.core.XWalkPreferences;
+import org.xwalk.core.XWalkResourceClient;
+import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
 
-import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -88,6 +87,28 @@ public class MainActivity extends BootstrapFragmentActivity {
     }
 
 
+    class MyResourceClient extends XWalkResourceClient {
+        MyResourceClient(XWalkView view) {
+            super(view);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+           return super.shouldInterceptLoadRequest(view, url);
+        }
+    }
+
+    class MyUIClient extends XWalkUIClient {
+        MyUIClient(XWalkView view) {
+            super(view);
+        }
+
+        @Override
+        public void onFullscreenToggled(XWalkView view, boolean enterFullscreen){
+            super.onFullscreenToggled(view, enterFullscreen);
+        }
+    }
+
 
     @Inject protected BootstrapServiceProvider serviceProvider;
 
@@ -100,7 +121,8 @@ public class MainActivity extends BootstrapFragmentActivity {
     private NavigationDrawerFragment navigationDrawerFragment;
     private XWalkView myXWalkWebView;
     private int outletID;
-    private ScheduledFuture scheduledFuture;
+    private ScheduledFuture scheduledFutureGetId;
+    private ScheduledFuture scheduledFutureReload;
     static final String TAG = "MainActvivity";
 
     String SENDER_ID = "264050289553";
@@ -117,7 +139,6 @@ public class MainActivity extends BootstrapFragmentActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         // register for push
         OneSignal.init(this, "760620824085", "c412366e-e725-11e4-9685-ef6b78def1f2", new ExampleNotificationOpenedHandler());
-        OneSignal.sendTag("outlet_id", "1");
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
@@ -129,23 +150,12 @@ public class MainActivity extends BootstrapFragmentActivity {
 
         myXWalkWebView = (XWalkView)findViewById(R.id.xwalkWebView);
         myXWalkWebView.clearCache(true);
+        myXWalkWebView.setResourceClient(new MyResourceClient(myXWalkWebView));
+        myXWalkWebView.setUIClient(new MyUIClient(myXWalkWebView));
         myXWalkWebView.load("http://bigspoon.biz/staff/main", null);
 
         // turn on debugging
         XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
-
-        //checkAuth();
-        gcm = GoogleCloudMessaging.getInstance(this);
-        regid = getRegistrationId(context);
-
-        if (regid.isEmpty()) {
-            registerInBackground();
-        } else {
-            System.out.println("///////////////////////////////////////////////////////////////");
-            System.out.println(regid);
-            System.out.println("///////////////////////////////////////////////////////////////");
-        }
-
     }
 
     private void setupDrawer() {
@@ -200,11 +210,16 @@ public class MainActivity extends BootstrapFragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        this.myXWalkWebView.reload(XWalkView.RELOAD_NORMAL);
         final Handler handler = new Handler();
         final ScheduledExecutorService scheduler =
                 Executors.newSingleThreadScheduledExecutor();
 
-        scheduledFuture = scheduler.scheduleAtFixedRate
+        if (scheduledFutureReload != null) {
+            scheduledFutureReload.cancel(true);
+        }
+
+        scheduledFutureReload = scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
                         handler.post(new Runnable() {
@@ -213,14 +228,28 @@ public class MainActivity extends BootstrapFragmentActivity {
                                 MainActivity.this.myXWalkWebView.evaluateJavascript("OUTLET_IDS[0];", new ValueCallback<String>() {
                                     @Override
                                     public void onReceiveValue(String value) {
+                                        System.out.println("OUTLET_ID obtained !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                         System.out.println(value);
-                                        Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
+                                        System.out.println("OUTLET_ID obtained !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                         if (value != null && BGUtils.isNumeric(value)) {
                                             MainActivity.this.outletID = Integer.valueOf(value);
+                                            OneSignal.sendTag("outlet_id", value);
                                         }
-                                        MainActivity.this.scheduledFuture .cancel(true);
+                                        MainActivity.this.scheduledFutureGetId.cancel(true);
                                     }
                                 });
+                            }
+                        });
+                    }
+                }, 5, 5, TimeUnit.MINUTES);
+
+        scheduledFutureGetId = scheduler.scheduleAtFixedRate
+                (new Runnable() {
+                    public void run() {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                MainActivity.this.myXWalkWebView.reload(XWalkView.RELOAD_NORMAL);
                             }
                         });
                     }
@@ -241,47 +270,6 @@ public class MainActivity extends BootstrapFragmentActivity {
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
-
-    private void initScreen() {
-        if (userHasAuthenticated) {
-
-            Ln.d("Foo");
-//            final FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.container, new XxxFragment())
-//                    x
-        }
-
-    }
-
-//    private void checkAuth() {
-//        new SafeAsyncTask<Boolean>() {
-//
-//            @Override
-//            public Boolean call() throws Exception {
-//                final BootstrapService svc = serviceProvider.getService(MainActivity.this);
-//                return svc != null;
-//            }
-//
-//            @Override
-//            protected void onException(final Exception e) throws RuntimeException {
-//                super.onException(e);
-//                if (e instanceof OperationCanceledException) {
-//                    // User cancelled the authentication process (back button, etc).
-//                    // Since auth could not take place, lets finish this activity.
-//                    finish();
-//                }
-//            }
-//
-//            @Override
-//            protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
-//                super.onSuccess(hasAuthenticated);
-//                userHasAuthenticated = true;
-//                initScreen();
-//            }
-//        }.execute();
-//    }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -319,25 +307,6 @@ public class MainActivity extends BootstrapFragmentActivity {
     }
 
     /**
-     * Gets the current registration ID for application on GCM service.
-     * <p>
-     * If result is empty, the app needs to register.
-     *
-     * @return registration ID, or empty string if there is no existing
-     *         registration ID.
-     */
-    private String getRegistrationId(Context context) {
-        final SharedPreferences prefs = getGCMPreferences(context);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            Log.i(TAG, "Registration not found.");
-            return "";
-        }
-
-        return registrationId;
-    }
-
-    /**
      * @return Application's {@code SharedPreferences}.
      */
     private SharedPreferences getGCMPreferences(Context context) {
@@ -345,53 +314,6 @@ public class MainActivity extends BootstrapFragmentActivity {
         // how you store the registration ID in your app is up to you.
         return getSharedPreferences(MainActivity.class.getSimpleName(),
                 Context.MODE_PRIVATE);
-    }
-
-    /**
-     * Registers the application with GCM servers asynchronously.
-     * <p>
-     * Stores the registration ID and app versionCode in the application's
-     * shared preferences.
-     */
-    private void registerInBackground() {
-        new AsyncTask() {
-            @Override
-            protected String doInBackground(Object[] params) {
-                String msg = "";
-                try {
-                    if (gcm == null) {
-                        gcm = GoogleCloudMessaging.getInstance(context);
-                    }
-                    regid = gcm.register(SENDER_ID);
-                    msg = "Device registered, registration ID=" + regid;
-                    sendRegistrationIdToBackend();
-                    storeRegistrationId(context, regid);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                }
-                return msg;
-            }
-
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                System.out.println("///////////////////////////////////////////////////////////////");
-                System.out.println(getRegistrationId(MainActivity.this));
-                System.out.println("///////////////////////////////////////////////////////////////");
-            }
-        }.execute(null, null, null);
-
-    }
-
-    private void sendRegistrationIdToBackend() {
-        // TODO
-    }
-
-    private void storeRegistrationId(Context context, String regId) {
-        final SharedPreferences prefs = getGCMPreferences(context);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(PROPERTY_REG_ID, regId);
-        editor.commit();
     }
 }
 
