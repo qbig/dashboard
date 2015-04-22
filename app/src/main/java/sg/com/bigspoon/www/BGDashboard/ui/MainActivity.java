@@ -2,6 +2,7 @@
 
 package sg.com.bigspoon.www.BGDashboard.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -14,12 +15,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.onesignal.OneSignal;
+import com.onesignal.OneSignal.NotificationOpenedHandler;
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkView;
 
@@ -38,8 +44,6 @@ import sg.com.bigspoon.www.BGDashboard.R;
 import sg.com.bigspoon.www.BGDashboard.events.NavItemSelectedEvent;
 import sg.com.bigspoon.www.BGDashboard.util.BGUtils;
 import sg.com.bigspoon.www.BGDashboard.util.Ln;
-
-
 /**
  * Initial activity for the application.
  *
@@ -47,6 +51,43 @@ import sg.com.bigspoon.www.BGDashboard.util.Ln;
  * {@link sg.com.bigspoon.www.BGDashboard.authenticator.ApiKeyProvider#getAuthKey(android.app.Activity)}
  */
 public class MainActivity extends BootstrapFragmentActivity {
+    // NotificationOpenedHandler is implemented in its own class instead of adding implements to MainActivity so we don't hold on to a reference of our first activity if it gets recreated.
+    private class ExampleNotificationOpenedHandler implements NotificationOpenedHandler {
+        /**
+         * Callback to implement in your app to handle when a notification is opened from the Android status bar or
+         * a new one comes in while the app is running.
+         * This method is located in this activity as an example, you may have any class you wish implement NotificationOpenedHandler and define this method.
+         *
+         * @param message        The message string the user seen/should see in the Android status bar.
+         * @param additionalData The additionalData key value pair section you entered in on onesignal.com.
+         * @param isActive       Was the app in the foreground when the notification was received.
+         */
+        @Override
+        public void notificationOpened(String message, JSONObject additionalData, boolean isActive) {
+            String messageTitle = "OneSignal Example", messageBody = message;
+
+            try {
+                if (additionalData != null) {
+                    if (additionalData.has("title"))
+                        messageTitle = additionalData.getString("title");
+                    if (additionalData.has("actionSelected"))
+                        messageBody += "\nPressed ButtonID: " + additionalData.getString("actionSelected");
+
+                    messageBody = message + "\n\nFull additionalData:\n" + additionalData.toString();
+                }
+            } catch (JSONException e) {
+            }
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle(messageTitle)
+                    .setMessage(messageBody)
+                    .setCancelable(true)
+                    .setPositiveButton("OK", null)
+                    .create().show();
+        }
+    }
+
+
 
     @Inject protected BootstrapServiceProvider serviceProvider;
 
@@ -74,60 +115,17 @@ public class MainActivity extends BootstrapFragmentActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-
+        // register for push
+        OneSignal.init(this, "760620824085", "c412366e-e725-11e4-9685-ef6b78def1f2", new ExampleNotificationOpenedHandler());
+        OneSignal.sendTag("outlet_id", "1");
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
-
-        if(isTablet()) {
-            setContentView(R.layout.main_activity_tablet);
-        } else {
-            setContentView(R.layout.main_activity);
-        }
-
+        setContentView(R.layout.main_activity);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // View injection with Butterknife
         Views.inject(this);
-
-        // Set up navigation drawer
-        title = drawerTitle = getTitle();
-
-        if(!isTablet()) {
-            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawerToggle = new ActionBarDrawerToggle(
-                    this,                    /* Host activity */
-                    drawerLayout,           /* DrawerLayout object */
-                    R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
-                    R.string.navigation_drawer_open,    /* "open drawer" description */
-                    R.string.navigation_drawer_close) { /* "close drawer" description */
-
-                /** Called when a drawer has settled in a completely closed state. */
-                public void onDrawerClosed(View view) {
-                    getSupportActionBar().setTitle(title);
-                    supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-                }
-
-                /** Called when a drawer has settled in a completely open state. */
-                public void onDrawerOpened(View drawerView) {
-                    getSupportActionBar().setTitle(drawerTitle);
-                    supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-                }
-            };
-
-            // Set the drawer toggle as the DrawerListener
-            drawerLayout.setDrawerListener(drawerToggle);
-
-            navigationDrawerFragment = (NavigationDrawerFragment)
-                    getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-
-            // Set up the drawer.
-            navigationDrawerFragment.setUp(
-                    R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
-        }
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        setupDrawer();
 
         myXWalkWebView = (XWalkView)findViewById(R.id.xwalkWebView);
         myXWalkWebView.clearCache(true);
@@ -135,7 +133,6 @@ public class MainActivity extends BootstrapFragmentActivity {
 
         // turn on debugging
         XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
-        getSupportActionBar().hide();
 
         //checkAuth();
         gcm = GoogleCloudMessaging.getInstance(this);
@@ -149,6 +146,55 @@ public class MainActivity extends BootstrapFragmentActivity {
             System.out.println("///////////////////////////////////////////////////////////////");
         }
 
+    }
+
+    private void setupDrawer() {
+        // Set up navigation drawer
+        title = drawerTitle = getTitle();
+
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = new ActionBarDrawerToggle(
+                this,                    /* Host activity */
+                drawerLayout,           /* DrawerLayout object */
+                R.drawable.ic_drawer,    /* nav drawer icon to replace 'Up' caret */
+                R.string.navigation_drawer_open,    /* "open drawer" description */
+                R.string.navigation_drawer_close) { /* "close drawer" description */
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                getSupportActionBar().setTitle(title);
+                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                getSupportActionBar().setTitle(drawerTitle);
+                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        drawerLayout.setDrawerListener(drawerToggle);
+
+        navigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+        // Set up the drawer.
+        navigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().hide();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        OneSignal.onPaused();
     }
 
     @Override
@@ -180,30 +226,20 @@ public class MainActivity extends BootstrapFragmentActivity {
                     }
                 }, 0, 5, TimeUnit.SECONDS);
 
-
-    }
-
-    private boolean isTablet() {
-        return false; //UIUtils.isTablet(this);
+        OneSignal.onResumed();
     }
 
     @Override
     protected void onPostCreate(final Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        if(!isTablet()) {
-            // Sync the toggle state after onRestoreInstanceState has occurred.
-            drawerToggle.syncState();
-        }
+        drawerToggle.syncState();
     }
 
 
     @Override
     public void onConfigurationChanged(final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if(!isTablet()) {
-            drawerToggle.onConfigurationChanged(newConfig);
-        }
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
 
@@ -250,7 +286,7 @@ public class MainActivity extends BootstrapFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
 
-        if (!isTablet() && drawerToggle.onOptionsItemSelected(item)) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 

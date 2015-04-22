@@ -21,6 +21,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -82,6 +83,12 @@ public class GcmIntentService extends IntentService {
                     Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                     Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                     r.play();
+
+
+
+                    MediaPlayer mediaPlayer=MediaPlayer.create(getApplicationContext(), R.raw.onesignal_default_sound);
+                    mediaPlayer.start();
+
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
