@@ -241,7 +241,7 @@ public class MainActivity extends BootstrapFragmentActivity {
                             }
                         });
                     }
-                }, 5, 5, TimeUnit.MINUTES);
+                }, 0, 5, TimeUnit.SECONDS);
 
         scheduledFutureGetId = scheduler.scheduleAtFixedRate
                 (new Runnable() {
@@ -253,7 +253,7 @@ public class MainActivity extends BootstrapFragmentActivity {
                             }
                         });
                     }
-                }, 0, 5, TimeUnit.SECONDS);
+                }, 5, 5, TimeUnit.MINUTES);
 
         OneSignal.onResumed();
     }
