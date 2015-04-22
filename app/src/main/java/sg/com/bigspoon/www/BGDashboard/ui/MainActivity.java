@@ -219,7 +219,7 @@ public class MainActivity extends BootstrapFragmentActivity {
             scheduledFutureReload.cancel(true);
         }
 
-        scheduledFutureReload = scheduler.scheduleAtFixedRate
+        scheduledFutureGetId= scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
                         handler.post(new Runnable() {
@@ -243,7 +243,7 @@ public class MainActivity extends BootstrapFragmentActivity {
                     }
                 }, 0, 5, TimeUnit.SECONDS);
 
-        scheduledFutureGetId = scheduler.scheduleAtFixedRate
+        scheduledFutureReload  = scheduler.scheduleAtFixedRate
                 (new Runnable() {
                     public void run() {
                         handler.post(new Runnable() {
