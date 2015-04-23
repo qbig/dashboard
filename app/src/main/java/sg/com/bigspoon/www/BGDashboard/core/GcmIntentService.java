@@ -16,22 +16,22 @@
 
 package sg.com.bigspoon.www.BGDashboard.core;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import java.util.List;
 
 import sg.com.bigspoon.www.BGDashboard.R;
 import sg.com.bigspoon.www.BGDashboard.ui.MainActivity;
@@ -51,8 +51,8 @@ public class GcmIntentService extends IntentService {
     public GcmIntentService() {
         super("GcmIntentService");
     }
-    public static final String TAG = "GCM Demo";
-
+    public static final String TAG = "BigSpoon";
+    private static final boolean DEBUG = false;
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
@@ -67,26 +67,30 @@ public class GcmIntentService extends IntentService {
              * extended in the future with new message types, just ignore any message types you're
              * not interested in, or that you don't recognize.
              */
-            if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
+            if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType) && DEBUG) {
                 sendNotification("Send error: " + extras.toString());
-            } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
+            } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType) && DEBUG) {
                 sendNotification("Deleted messages on server: " + extras.toString());
             // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
-                for (int i = 0; i < 5; i++) {
-                    Log.i(TAG, "Working... " + (i + 1)
-                            + "/5 @ " + SystemClock.elapsedRealtime());
-                    Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                    // Vibrate for 500 milliseconds
-                    v.vibrate(1500);
-                    Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-                    r.play();
-
-
-
-                    MediaPlayer mediaPlayer=MediaPlayer.create(getApplicationContext(), R.raw.onesignal_default_sound);
+                final Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                final MediaPlayer mediaPlayer=MediaPlayer.create(getApplicationContext(), R.raw.onesignal_default_sound);
+                final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+                while(! (isInFronground() && pm.isScreenOn())) {
+                    Log.i(TAG, "playing alarm");
+                    v.vibrate(3000);
+                    mediaPlayer.setOnPreparedListener(new android.media.MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            mediaPlayer.start();
+                        }
+                    });
+                    mediaPlayer.setOnCompletionListener(new android.media.MediaPlayer.OnCompletionListener() {
+                        public void onCompletion(MediaPlayer mMediaPlayer) {
+                            mMediaPlayer.release();
+                        }
+                    });
                     mediaPlayer.start();
 
                     try {
@@ -94,14 +98,25 @@ public class GcmIntentService extends IntentService {
                     } catch (InterruptedException e) {
                     }
                 }
-                Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
-                // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
-                Log.i(TAG, "Received: " + extras.toString());
             }
         }
         // Release the wake lock provided by the WakefulBroadcastReceiver.
         GcmBroadcastReceiver.completeWakefulIntent(intent);
+    }
+
+    private boolean isInFronground() {
+        final Context appContext = getApplicationContext();
+        ActivityManager activityManager = (ActivityManager) appContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> services = activityManager
+                .getRunningTasks(Integer.MAX_VALUE);
+        boolean isActivityFound = false;
+
+        if (services.get(0).topActivity.getPackageName().toString()
+                .equalsIgnoreCase(appContext.getPackageName().toString())) {
+            isActivityFound = true;
+        }
+
+        return isActivityFound;
     }
 
     // Put the message into a notification and post it.

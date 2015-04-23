@@ -4,6 +4,7 @@ package sg.com.bigspoon.www.BGDashboard.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -63,7 +64,7 @@ public class MainActivity extends BootstrapFragmentActivity {
          */
         @Override
         public void notificationOpened(String message, JSONObject additionalData, boolean isActive) {
-            String messageTitle = "OneSignal Example", messageBody = message;
+            String messageTitle = "New Message", messageBody = message;
 
             try {
                 if (additionalData != null) {
@@ -71,8 +72,8 @@ public class MainActivity extends BootstrapFragmentActivity {
                         messageTitle = additionalData.getString("title");
                     if (additionalData.has("actionSelected"))
                         messageBody += "\nPressed ButtonID: " + additionalData.getString("actionSelected");
-
-                    messageBody = message + "\n\nFull additionalData:\n" + additionalData.toString();
+                    if (additionalData.has("full"))
+                        messageBody = message + "\n\nFull additionalData:\n" + additionalData.toString();
                 }
             } catch (JSONException e) {
             }
@@ -82,6 +83,12 @@ public class MainActivity extends BootstrapFragmentActivity {
                     .setMessage(messageBody)
                     .setCancelable(true)
                     .setPositiveButton("OK", null)
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+
+                        }
+                    })
                     .create().show();
         }
     }
@@ -205,6 +212,8 @@ public class MainActivity extends BootstrapFragmentActivity {
     protected void onPause() {
         super.onPause();
         OneSignal.onPaused();
+        scheduledFutureGetId.cancel(true);
+        scheduledFutureReload.cancel(true);
     }
 
     @Override
@@ -233,15 +242,24 @@ public class MainActivity extends BootstrapFragmentActivity {
                                         System.out.println("OUTLET_ID obtained !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                         if (value != null && BGUtils.isNumeric(value)) {
                                             MainActivity.this.outletID = Integer.valueOf(value);
-                                            OneSignal.sendTag("outlet_id", value);
+                                            OneSignal.sendTag(getString(R.string.OUTLET_ID), value);
+                                            OneSignal.getTags(new OneSignal.GetTagsHandler() {
+                                                @Override
+                                                public void tagsAvailable(JSONObject jsonObject) {
+                                                    final String tags = jsonObject.toString();
+                                                    if (tags != null && tags.contains(getString(R.string.OUTLET_ID))) {
+                                                        MainActivity.this.scheduledFutureGetId.cancel(true);
+                                                    }
+                                                }
+                                            });
                                         }
-                                        MainActivity.this.scheduledFutureGetId.cancel(true);
+
                                     }
                                 });
                             }
                         });
                     }
-                }, 0, 5, TimeUnit.SECONDS);
+                }, 5, 5, TimeUnit.SECONDS);
 
         scheduledFutureReload  = scheduler.scheduleAtFixedRate
                 (new Runnable() {
