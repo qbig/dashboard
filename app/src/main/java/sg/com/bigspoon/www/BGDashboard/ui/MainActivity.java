@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
-import android.webkit.WebResourceResponse;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.onesignal.OneSignal;
@@ -100,8 +100,14 @@ public class MainActivity extends BootstrapFragmentActivity {
         }
 
         @Override
-        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
-           return super.shouldInterceptLoadRequest(view, url);
+        public void onLoadFinished(XWalkView view, String url) {
+            super.onLoadFinished(view, url);
+            MainActivity.this.handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    spinner.setVisibility(View.GONE);
+                }
+            }, 3000);
         }
     }
 
@@ -141,7 +147,8 @@ public class MainActivity extends BootstrapFragmentActivity {
     public static final String PROPERTY_REG_ID = "registration_id";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     String regid;
-
+    private ProgressBar spinner;
+    private Handler handler;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         // register for push
@@ -150,17 +157,19 @@ public class MainActivity extends BootstrapFragmentActivity {
         context = getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // View injection with Butterknife
         Views.inject(this);
         setupDrawer();
+        handler = new Handler();
 
         myXWalkWebView = (XWalkView)findViewById(R.id.xwalkWebView);
         myXWalkWebView.clearCache(true);
         myXWalkWebView.setResourceClient(new MyResourceClient(myXWalkWebView));
         myXWalkWebView.setUIClient(new MyUIClient(myXWalkWebView));
         myXWalkWebView.load("http://bigspoon.biz/staff/main", null);
-
+        spinner.setVisibility(View.VISIBLE);
         // turn on debugging
         XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
     }
@@ -220,7 +229,6 @@ public class MainActivity extends BootstrapFragmentActivity {
     protected void onResume() {
         super.onResume();
         this.myXWalkWebView.reload(XWalkView.RELOAD_NORMAL);
-        final Handler handler = new Handler();
         final ScheduledExecutorService scheduler =
                 Executors.newSingleThreadScheduledExecutor();
 
