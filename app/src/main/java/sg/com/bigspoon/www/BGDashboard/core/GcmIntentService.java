@@ -79,21 +79,20 @@ public class GcmIntentService extends IntentService {
                 final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
                 while(! (isInFronground() && pm.isScreenOn())) {
                     Log.i(TAG, "playing alarm");
-                    v.vibrate(3000);
-                    mediaPlayer.setOnPreparedListener(new android.media.MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-                            mediaPlayer.start();
-                        }
-                    });
-                    mediaPlayer.setOnCompletionListener(new android.media.MediaPlayer.OnCompletionListener() {
-                        public void onCompletion(MediaPlayer mMediaPlayer) {
-                            mMediaPlayer.release();
-                        }
-                    });
-                    mediaPlayer.start();
-
                     try {
+                        v.vibrate(3000);
+                        mediaPlayer.setOnPreparedListener(new android.media.MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+                                mediaPlayer.start();
+                            }
+                        });
+                        mediaPlayer.setOnCompletionListener(new android.media.MediaPlayer.OnCompletionListener() {
+                            public void onCompletion(MediaPlayer mMediaPlayer) {
+                                mMediaPlayer.release();
+                            }
+                        });
+                        mediaPlayer.start();
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
                     }

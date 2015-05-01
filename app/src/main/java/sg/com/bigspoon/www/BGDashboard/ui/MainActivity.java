@@ -2,6 +2,7 @@
 
 package sg.com.bigspoon.www.BGDashboard.ui;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
@@ -30,6 +32,7 @@ import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -77,19 +80,22 @@ public class MainActivity extends BootstrapFragmentActivity {
                 }
             } catch (JSONException e) {
             }
+            final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (! (isInFronground() && pm.isScreenOn())) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle(messageTitle)
+                        .setMessage(messageBody)
+                        .setCancelable(true)
+                        .setPositiveButton("OK", null)
+                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
 
-            new AlertDialog.Builder(MainActivity.this)
-                    .setTitle(messageTitle)
-                    .setMessage(messageBody)
-                    .setCancelable(true)
-                    .setPositiveButton("OK", null)
-                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
+                            }
+                        })
+                        .create().show();
+            }
 
-                        }
-                    })
-                    .create().show();
         }
     }
 
@@ -168,7 +174,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         myXWalkWebView.clearCache(true);
         myXWalkWebView.setResourceClient(new MyResourceClient(myXWalkWebView));
         myXWalkWebView.setUIClient(new MyUIClient(myXWalkWebView));
-        myXWalkWebView.load("http://bigspoon.biz/staff/main", null);
+        myXWalkWebView.load("http://54.251.209.132/staff/main", null);
         spinner.setVisibility(View.VISIBLE);
         // turn on debugging
         XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
@@ -341,5 +347,21 @@ public class MainActivity extends BootstrapFragmentActivity {
         return getSharedPreferences(MainActivity.class.getSimpleName(),
                 Context.MODE_PRIVATE);
     }
+
+    private boolean isInFronground() {
+        final Context appContext = getApplicationContext();
+        ActivityManager activityManager = (ActivityManager) appContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> services = activityManager
+                .getRunningTasks(Integer.MAX_VALUE);
+        boolean isActivityFound = false;
+
+        if (services.get(0).topActivity.getPackageName().toString()
+                .equalsIgnoreCase(appContext.getPackageName().toString())) {
+            isActivityFound = true;
+        }
+
+        return isActivityFound;
+    }
+
 }
 
