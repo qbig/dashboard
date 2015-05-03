@@ -53,8 +53,10 @@ public class GcmIntentService extends IntentService {
     }
     public static final String TAG = "BigSpoon";
     private static final boolean DEBUG = false;
+    private MediaPlayer mediaPlayer;
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.i(TAG, "NOTIF Received!");
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         // The getMessageType() intent parameter must be the intent you received
@@ -75,9 +77,9 @@ public class GcmIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // This loop represents the service doing some work.
                 final Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                final MediaPlayer mediaPlayer=MediaPlayer.create(getApplicationContext(), R.raw.onesignal_default_sound);
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.onesignal_default_sound);
                 final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                while(! (isInFronground() && pm.isScreenOn())) {
+                while(!pm.isScreenOn()) {
                     Log.i(TAG, "playing alarm");
                     try {
                         v.vibrate(3000);

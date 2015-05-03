@@ -27,7 +27,6 @@ import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xwalk.core.XWalkPreferences;
 import org.xwalk.core.XWalkResourceClient;
 import org.xwalk.core.XWalkUIClient;
 import org.xwalk.core.XWalkView;
@@ -67,7 +66,7 @@ public class MainActivity extends BootstrapFragmentActivity {
          */
         @Override
         public void notificationOpened(String message, JSONObject additionalData, boolean isActive) {
-            String messageTitle = "New Message", messageBody = message;
+            String messageTitle = "New Message from Customer!", messageBody = message;
 
             try {
                 if (additionalData != null) {
@@ -174,10 +173,10 @@ public class MainActivity extends BootstrapFragmentActivity {
         myXWalkWebView.clearCache(true);
         myXWalkWebView.setResourceClient(new MyResourceClient(myXWalkWebView));
         myXWalkWebView.setUIClient(new MyUIClient(myXWalkWebView));
-        myXWalkWebView.load("http://54.251.209.132/staff/main", null);
+        myXWalkWebView.load("http://bigspoon.biz/staff/main", null); //http://54.251.209.132/staff/main
         spinner.setVisibility(View.VISIBLE);
         // turn on debugging
-        XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
+        // XWalkPreferences.setValue(XWalkPreferences.REMOTE_DEBUGGING, true);
     }
 
     private void setupDrawer() {
