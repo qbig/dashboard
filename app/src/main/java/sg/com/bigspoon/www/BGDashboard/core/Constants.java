@@ -10,7 +10,6 @@ public final class Constants {
 
     public static final class Auth {
         private Auth() {}
-        public static final String PREFS_NAME = "MyPrefsFile";
         /**
          * Account type id
          */
@@ -30,6 +29,10 @@ public final class Constants {
          * Auth token type
          */
         public static final String AUTHTOKEN_TYPE = BOOTSTRAP_ACCOUNT_TYPE;
+
+        public static final String MIXPANEL_TOKEN = "7bea3eb18a85d925e2650c57a497db81";
+        public static final String OUTLET_ID = "outletId";
+        public static final String PREFS_NAME = "prefName";
     }
 
     /**

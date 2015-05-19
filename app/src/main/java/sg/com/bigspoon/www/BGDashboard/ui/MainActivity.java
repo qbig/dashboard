@@ -46,6 +46,10 @@ import sg.com.bigspoon.www.BGDashboard.R;
 import sg.com.bigspoon.www.BGDashboard.events.NavItemSelectedEvent;
 import sg.com.bigspoon.www.BGDashboard.util.BGUtils;
 import sg.com.bigspoon.www.BGDashboard.util.Ln;
+
+import static sg.com.bigspoon.www.BGDashboard.core.Constants.Auth.OUTLET_ID;
+import static sg.com.bigspoon.www.BGDashboard.core.Constants.Auth.PREFS_NAME;
+
 /**
  * Initial activity for the application.
  *
@@ -255,6 +259,9 @@ public class MainActivity extends BootstrapFragmentActivity {
                                         System.out.println("OUTLET_ID obtained !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                         if (value != null && BGUtils.isNumeric(value)) {
                                             MainActivity.this.outletID = Integer.valueOf(value);
+                                            final SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
+                                            final SharedPreferences.Editor edit = pref.edit();
+                                            edit.putString(OUTLET_ID, value);
                                             OneSignal.sendTag(getString(R.string.OUTLET_ID), value);
                                             OneSignal.getTags(new OneSignal.GetTagsHandler() {
                                                 @Override

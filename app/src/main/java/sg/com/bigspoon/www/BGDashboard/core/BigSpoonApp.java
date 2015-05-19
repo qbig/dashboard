@@ -8,8 +8,17 @@ import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static sg.com.bigspoon.www.BGDashboard.core.Constants.Auth.MIXPANEL_TOKEN;
+import static sg.com.bigspoon.www.BGDashboard.core.Constants.Auth.PREFS_NAME;
+import static sg.com.bigspoon.www.BGDashboard.core.Constants.Auth.OUTLET_ID;
 /**
  * Created by qiaoliang89 on 20/4/15.
  */
@@ -17,6 +26,7 @@ import android.os.Handler;
 
 public class BigSpoonApp extends Application implements Foreground.Listener {
     final Handler mHandler = new Handler();
+    private MixpanelAPI mMixpanel;
 
     private BroadcastReceiver mLocationUpdateReceiver = new BroadcastReceiver() {
         @Override
@@ -49,25 +59,23 @@ public class BigSpoonApp extends Application implements Foreground.Listener {
 //        }
 
         Foreground.get(this).addListener(this);
-//
-//        mMixpanel = MixpanelAPI.getInstance(this, MIXPANEL_TOKEN);
-//        mMixpanel.identify(mMixpanel.getDistinctId());
-//        mMixpanel.getPeople().identify(mMixpanel.getDistinctId());
-//
-//        User.getInstance(this).mMixpanel = this.mMixpanel;
-//        final SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
-//        if (pref.contains(LOGIN_INFO_EMAIL)) {
-//            final String email = pref.getString(LOGIN_INFO_EMAIL, null);
-//            if (email != null) {
-//                JSONObject props = new JSONObject();
-//                try {
-//                    props.put("user", email);
-//                    //mMixpanel.track("Usage starts", props);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
+
+        mMixpanel = MixpanelAPI.getInstance(this, MIXPANEL_TOKEN);
+        mMixpanel.identify(mMixpanel.getDistinctId());
+        mMixpanel.getPeople().identify(mMixpanel.getDistinctId());
+
+        final SharedPreferences pref = getSharedPreferences(PREFS_NAME, 0);
+        if (pref.contains(OUTLET_ID)) {
+            final String outletId = pref.getString(OUTLET_ID, null);
+            if (outletId != null) {
+                JSONObject props = new JSONObject();
+                try {
+                    props.put("user", outletId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
