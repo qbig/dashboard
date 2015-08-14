@@ -6,12 +6,14 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +45,8 @@ import javax.inject.Inject;
 import butterknife.Views;
 import sg.com.bigspoon.www.BGDashboard.BootstrapServiceProvider;
 import sg.com.bigspoon.www.BGDashboard.R;
+import sg.com.bigspoon.www.BGDashboard.core.BigSpoonApp;
+import sg.com.bigspoon.www.BGDashboard.core.Constants;
 import sg.com.bigspoon.www.BGDashboard.events.NavItemSelectedEvent;
 import sg.com.bigspoon.www.BGDashboard.util.BGUtils;
 import sg.com.bigspoon.www.BGDashboard.util.Ln;
@@ -115,6 +119,12 @@ public class MainActivity extends BootstrapFragmentActivity {
                 @Override
                 public void run() {
                     spinner.setVisibility(View.GONE);
+                    MainActivity.this.handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(new Intent(Constants.Notification.CANCEL_ALARM_NOTIF));
+                        }
+                    }, 10 * 1000);
                 }
             }, 3000);
         }
@@ -158,6 +168,24 @@ public class MainActivity extends BootstrapFragmentActivity {
     String regid;
     private ProgressBar spinner;
     private Handler handler;
+
+
+    private void unlockScreen() {
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        ((BigSpoonApp)getApplicationContext()).wakeDevice();
+    }
+
+    private void sleepScreen() {
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        ((BigSpoonApp)getApplicationContext()).releaseWakeLock();
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         // register for push
@@ -232,6 +260,7 @@ public class MainActivity extends BootstrapFragmentActivity {
         OneSignal.onPaused();
         scheduledFutureGetId.cancel(true);
         scheduledFutureReload.cancel(true);
+        sleepScreen();
     }
 
     @Override
@@ -294,6 +323,7 @@ public class MainActivity extends BootstrapFragmentActivity {
                 }, 5, 5, TimeUnit.MINUTES);
 
         OneSignal.onResumed();
+        unlockScreen();
     }
 
     @Override

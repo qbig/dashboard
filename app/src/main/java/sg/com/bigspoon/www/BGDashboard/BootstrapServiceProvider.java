@@ -4,15 +4,11 @@ package sg.com.bigspoon.www.BGDashboard;
 import android.accounts.AccountsException;
 import android.app.Activity;
 
-import sg.com.bigspoon.www.BGDashboard.authenticator.ApiKeyProvider;
-import sg.com.bigspoon.www.BGDashboard.core.BootstrapService;
-import sg.com.bigspoon.www.BGDashboard.core.UserAgentProvider;
-
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import retrofit.RestAdapter;
+import sg.com.bigspoon.www.BGDashboard.authenticator.ApiKeyProvider;
+import sg.com.bigspoon.www.BGDashboard.core.BootstrapService;
 
 /**
  * Provider for a {@link sg.com.bigspoon.www.BGDashboard.core.BootstrapService} instance
@@ -21,6 +17,8 @@ public class BootstrapServiceProvider {
 
     private RestAdapter restAdapter;
     private ApiKeyProvider keyProvider;
+
+
 
     public BootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider keyProvider) {
         this.restAdapter = restAdapter;

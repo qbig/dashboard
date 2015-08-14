@@ -153,6 +153,8 @@ public final class Constants {
         }
 
         public static final int TIMER_NOTIFICATION_ID = 1000; // Why 1000? Why not? :)
+
+        public static final String CANCEL_ALARM_NOTIF = "cancelAlarmNotif";
     }
 
 }

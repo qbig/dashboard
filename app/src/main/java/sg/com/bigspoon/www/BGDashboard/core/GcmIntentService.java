@@ -20,13 +20,16 @@ import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -48,17 +51,32 @@ public class GcmIntentService extends IntentService {
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
 
-    public GcmIntentService() {
-        super("GcmIntentService");
-    }
+
     public static final String TAG = "BigSpoon";
     private static final boolean DEBUG = false;
     private MediaPlayer mediaPlayer;
+    private boolean isNotified = false;
+
+    private BroadcastReceiver stopAlarmReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            isNotified = true;
+            final LocalBroadcastManager manager = LocalBroadcastManager.getInstance(GcmIntentService.this);
+            manager.unregisterReceiver(stopAlarmReceiver);
+        }
+    };
+
+    public GcmIntentService() {
+        super("GcmIntentService");
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.i(TAG, "NOTIF Received!");
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+        final LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
+        manager.registerReceiver(stopAlarmReceiver, new IntentFilter(Constants.Notification.CANCEL_ALARM_NOTIF));
         // The getMessageType() intent parameter must be the intent you received
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
@@ -75,11 +93,16 @@ public class GcmIntentService extends IntentService {
                 sendNotification("Deleted messages on server: " + extras.toString());
             // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+                isNotified = false;
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplication().startActivity(i);
+
                 // This loop represents the service doing some work.
                 final Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                 mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.onesignal_default_sound);
                 final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-                while(!pm.isScreenOn()) {
+                while(!isNotified) {
                     Log.i(TAG, "playing alarm");
                     try {
                         v.vibrate(3000);

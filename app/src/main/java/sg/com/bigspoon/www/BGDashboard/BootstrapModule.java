@@ -16,6 +16,7 @@ import retrofit.converter.GsonConverter;
 import sg.com.bigspoon.www.BGDashboard.authenticator.ApiKeyProvider;
 import sg.com.bigspoon.www.BGDashboard.authenticator.BootstrapAuthenticatorActivity;
 import sg.com.bigspoon.www.BGDashboard.authenticator.LogoutService;
+import sg.com.bigspoon.www.BGDashboard.core.BigSpoonApp;
 import sg.com.bigspoon.www.BGDashboard.core.BootstrapService;
 import sg.com.bigspoon.www.BGDashboard.core.Constants;
 import sg.com.bigspoon.www.BGDashboard.core.PostFromAnyThreadBus;
@@ -33,7 +34,7 @@ import sg.com.bigspoon.www.BGDashboard.ui.NavigationDrawerFragment;
         complete = false,
         library = true,
         injects = {
-                BootstrapApplication.class,
+                BigSpoonApp.class,
                 BootstrapAuthenticatorActivity.class,
                 MainActivity.class,
                 NavigationDrawerFragment.class,

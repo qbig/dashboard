@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <!-- GCM requires a Google account. -->
@@ -38,7 +38,7 @@
         android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name=".BootstrapApplication"
+        android:name=".core.BigSpoonApp"
         android:icon="@drawable/bigspoon_icon_blue"
         android:label="@string/app_name"
         android:theme="@style/Theme.Bootstrap.Dark"
